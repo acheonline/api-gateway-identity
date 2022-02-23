@@ -1,0 +1,54 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.palantir.gradle.gitversion:gradle-git-version:0.12.3"
+    }
+}
+
+plugins {
+    id 'org.springframework.boot' version '2.4.10'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group = 'ru.achernyavskiy0n'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories.addAll(buildscript.repositories)
+
+defaultTasks 'clean', 'build'
+
+ext {
+    lombok = '1.18.22'
+    jjwt = '0.11.2'
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    //jwt
+    implementation "io.jsonwebtoken:jjwt-api:$jjwt"
+    implementation "io.jsonwebtoken:jjwt-impl:$jjwt"
+    implementation "io.jsonwebtoken:jjwt-jackson:$jjwt"
+
+    //actuator+prometheus
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+
+    compileOnly "org.projectlombok:lombok:$lombok"
+    annotationProcessor "org.projectlombok:lombok:$lombok"
+}
+
+test {
+    useJUnitPlatform()
+}
