@@ -35,7 +35,7 @@ public class IdentityController {
     return UserInfo.fromUser(identityService.findUser(username));
   }
 
-  @PutMapping(path = "/user/{username}", consumes = MediaType.APPLICATION_JSON_VALUE)
+  @PutMapping(path = "/user/{username}/update", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SuccessfulResponse> update(
       @PathVariable("username") String username, @RequestBody UserUpdateDto request)
       throws IdentityServiceException {

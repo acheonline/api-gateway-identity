@@ -84,7 +84,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8088/api/v1/identity/user/username",
+					"raw": "http://localhost:8088/api/v1/identity/user/username/update",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -95,7 +95,8 @@
 						"v1",
 						"identity",
 						"user",
-						"username"
+						"username",
+						"update"
 					]
 				}
 			},
