@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"username\": \"username\",\n    \"email\": \"email@gmail.com\",\n    \"password\": \"password\"\n}",
+					"raw": "{\n    \"username\": \"user\",\n    \"email\": \"email@gmail.com\",\n    \"password\": \"password\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -20,17 +20,11 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8088/api/v1/identity/user/registration",
-					"protocol": "http",
+					"raw": "{{baseUri}}/registration",
 					"host": [
-						"localhost"
+						"{{baseUri}}"
 					],
-					"port": "8088",
 					"path": [
-						"api",
-						"v1",
-						"identity",
-						"user",
 						"registration"
 					]
 				}
@@ -44,7 +38,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"username\": \"username\",\n    \"password\": \"password\"\n}",
+					"raw": "{\n    \"username\": \"user\",\n    \"password\": \"password\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -52,17 +46,11 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8088/api/v1/identity/user/login",
-					"protocol": "http",
+					"raw": "{{baseUri}}/login",
 					"host": [
-						"localhost"
+						"{{baseUri}}"
 					],
-					"port": "8088",
 					"path": [
-						"api",
-						"v1",
-						"identity",
-						"user",
 						"login"
 					]
 				}
@@ -84,18 +72,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8088/api/v1/identity/user/username/update",
-					"protocol": "http",
+					"raw": "{{baseUri}}/user/update",
 					"host": [
-						"localhost"
+						"{{baseUri}}"
 					],
-					"port": "8088",
 					"path": [
-						"api",
-						"v1",
-						"identity",
 						"user",
-						"username",
 						"update"
 					]
 				}
@@ -108,22 +90,43 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8088/api/v1/identity/user/username",
-					"protocol": "http",
+					"raw": "{{baseUri}}/user",
 					"host": [
-						"localhost"
+						"{{baseUri}}"
 					],
-					"port": "8088",
 					"path": [
-						"api",
-						"v1",
-						"identity",
-						"user",
-						"username"
+						"user"
 					]
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUri",
+			"value": "http://localhost:8088/api/v1/identity/user",
+			"type": "string"
 		}
 	]
 }
