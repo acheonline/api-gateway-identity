@@ -12,7 +12,6 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 import ru.achernyavskiy0n.identity.kafka.TransportProducer;
 import ru.achernyavskiy0n.identity.kafka.messages.AccountCreationMessage;
-import ru.achernyavskiy0n.identity.utils.StringUtils;
 
 import java.util.UUID;
 
