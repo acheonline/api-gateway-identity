@@ -31,6 +31,7 @@ defaultTasks 'clean', 'build'
 ext {
     lombok = '1.18.22'
     jjwt = '0.11.2'
+    kafkaVersion = '2.7.2';
 }
 
 dependencies {
@@ -44,6 +45,9 @@ dependencies {
     //actuator+prometheus
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.micrometer:micrometer-registry-prometheus'
+
+    //kafka
+    implementation "org.springframework.kafka:spring-kafka:$kafkaVersion"
 
     compileOnly "org.projectlombok:lombok:$lombok"
     annotationProcessor "org.projectlombok:lombok:$lombok"

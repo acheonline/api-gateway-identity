@@ -2,6 +2,8 @@ package ru.achernyavskiy0n.identity.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.achernyavskiy0n.identity.kafka.TransportProducer;
+import ru.achernyavskiy0n.identity.kafka.messages.AccountCreationMessage;
 import ru.achernyavskiy0n.identity.security.TokenService;
 import ru.achernyavskiy0n.identity.user.*;
 
@@ -14,6 +16,7 @@ public class IdentityService {
   private final UserRepository userRepository;
   private final PasswordSecure passwordSecure;
   private final TokenService tokenService;
+  private final TransportProducer producer;
 
   public void create(String username, String email, String password)
       throws IdentityServiceException {
@@ -24,6 +27,8 @@ public class IdentityService {
       } else {
         User user = User.register(username, email, passwordSecure.encrypt(password));
         userRepository.save(user);
+        var message = AccountCreationMessage.builder().username(username).build();
+        producer.createAccount(message);
       }
     } catch (UserRepositoryException | PasswordSecureException e) {
       throw new IdentityServiceException(e);

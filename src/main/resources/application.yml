@@ -26,3 +26,20 @@ management:
     distribution:
       percentiles-histogram:
         "[http.server.requests]": true
+
+spring:
+  kafka:
+    producer:
+      client-id: ${KAFKA_CLIENT_ID:identity}
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+      acks: all
+      security.protocol: ${KAFKA_PROTOCOL:PLAINTEXT}
+logging:
+  level:
+    org.apache.kafka.*: WARN
+
+identity:
+  transport:
+    topics:
+      billing:
+        create: ${BILLING_CREATE_TOPIC:create}
