@@ -1,67 +1,38 @@
 package ru.achernyavskiy0n.identity.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.achernyavskiy0n.identity.kafka.TransportProducer;
-import ru.achernyavskiy0n.identity.kafka.messages.AccountCreationMessage;
+import ru.achernyavskiy0n.identity.persistence.UserRepository;
 import ru.achernyavskiy0n.identity.security.TokenService;
-import ru.achernyavskiy0n.identity.user.*;
+import ru.achernyavskiy0n.identity.user.PasswordSecure;
+import ru.achernyavskiy0n.identity.user.PasswordSecureException;
+import ru.achernyavskiy0n.identity.user.User;
 
 import java.util.Optional;
 
 /** */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class IdentityService {
   private final UserRepository userRepository;
   private final PasswordSecure passwordSecure;
   private final TokenService tokenService;
-  private final TransportProducer producer;
 
   public void create(String username, String email, String password)
       throws IdentityServiceException {
     try {
-      if (userRepository.userAlreadyExists(username, email)) {
+      if (userRepository.findByUsernameAndEmail(username, email).isPresent()) {
         throw new IdentityServiceException(
             "User with username '" + username + "' or e-mail '" + email + "' already exists");
       } else {
         User user = User.register(username, email, passwordSecure.encrypt(password));
+        log.info("User with USERNAME: '{}' is registered.", user.getUsername());
+        log.debug("User registered: {}", user);
         userRepository.save(user);
-        var message = AccountCreationMessage.builder().username(username).build();
-        producer.createAccount(message);
       }
-    } catch (UserRepositoryException | PasswordSecureException e) {
-      throw new IdentityServiceException(e);
-    }
-  }
-
-  public User findUser(String username) throws IdentityServiceException {
-    try {
-      Optional<User> userOptional = userRepository.findByUsername(username);
-
-      if (userOptional.isPresent()) {
-        return userOptional.get();
-      } else {
-        throw new IdentityServiceException("User with username: '" + username + "' not found");
-      }
-    } catch (UserRepositoryException e) {
-      throw new IdentityServiceException(e);
-    }
-  }
-
-  public void update(String username, String firstName, String lastName, String email, String phone)
-      throws IdentityServiceException {
-    try {
-      Optional<User> userOptional = userRepository.findByUsername(username);
-
-      if (userOptional.isPresent()) {
-        User user = userOptional.get();
-        user.update(username, firstName, lastName, email, phone);
-        userRepository.update(user);
-      } else {
-        throw new IdentityServiceException("User with username: '" + username + "' not found");
-      }
-    } catch (UserRepositoryException e) {
+    } catch (PasswordSecureException e) {
       throw new IdentityServiceException(e);
     }
   }
@@ -74,6 +45,8 @@ public class IdentityService {
         User user = userOptional.get();
 
         if (passwordSecure.validate(password, user.getPassword())) {
+          log.info("User with UUID: {} is authenticated.", user.getId());
+          log.debug("User authenticated: {}", user);
           return tokenService.generate(user);
         } else {
           throw new IdentityServiceException("Username or password is not valid");
@@ -81,7 +54,7 @@ public class IdentityService {
       } else {
         throw new IdentityServiceException("User '" + username + "' not found");
       }
-    } catch (UserRepositoryException | PasswordSecureException e) {
+    } catch (PasswordSecureException e) {
       throw new IdentityServiceException(e);
     }
   }

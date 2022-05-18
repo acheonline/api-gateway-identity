@@ -29,9 +29,7 @@ repositories.addAll(buildscript.repositories)
 defaultTasks 'clean', 'build'
 
 ext {
-    lombok = '1.18.22'
     jjwt = '0.11.2'
-    kafkaVersion = '2.7.2';
 }
 
 dependencies {
@@ -46,11 +44,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.micrometer:micrometer-registry-prometheus'
 
-    //kafka
-    implementation "org.springframework.kafka:spring-kafka:$kafkaVersion"
+    //jpa
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'org.postgresql:postgresql'
 
-    compileOnly "org.projectlombok:lombok:$lombok"
-    annotationProcessor "org.projectlombok:lombok:$lombok"
+    compileOnly "org.projectlombok:lombok"
+    annotationProcessor "org.projectlombok:lombok"
 }
 
 test {
