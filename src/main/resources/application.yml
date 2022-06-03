@@ -16,7 +16,7 @@ spring:
     banner-mode: off
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/identitydb}
+    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/news_db}
     username: ${DATASOURCE_USERNAME:postgres}
     password: ${DATASOURCE_PASSWORD:postgres}
   jpa:

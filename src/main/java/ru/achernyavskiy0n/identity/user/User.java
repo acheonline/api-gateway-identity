@@ -12,7 +12,7 @@ import java.util.UUID;
 @ToString
 @NoArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(name = "users", schema = "news")
 public class User {
 
   private static final int MAX_USERNAME_LENGTH = 256;
