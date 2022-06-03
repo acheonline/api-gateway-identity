@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS news.users;
-CREATE SCHEMA IF NOT EXISTS news;
-CREATE TABLE IF NOT EXISTS news.users
+DROP TABLE IF EXISTS users.users;
+CREATE SCHEMA IF NOT EXISTS users;
+CREATE TABLE IF NOT EXISTS users.users
 (
     id       uuid PRIMARY KEY not null,
     username text UNIQUE NOT NULL,
